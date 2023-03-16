@@ -51,14 +51,19 @@ def canned_response(voice_data):
         webbrowser.get().open(url)
         am_speak(f'Here is what I found for: {location}')
     if 'goodbye' in voice_data:
-        am_speak('It was good talking to you.')
+        am_speak('It was good listening to you.')
         exit()
     if 'who rocks the party' in voice_data:
         am_speak('We rock the party, rock the party.')
+    if 'what\'s the latest news' in voice_data:
+        url = 'https://apnews.com/'
+        webbrowser.get().open(url)
+        am_speak('Here\'s the latest news right now.')
 
 
-time.sleep(1)
-am_speak('Say something')
-while 1:
-    voice_data = listen_for_audio()
-    canned_response(voice_data)
+if __name__ == '__main__':
+    time.sleep(1)
+    am_speak('Howdy! How can I help you?')
+    while 1:
+        voice_data = listen_for_audio()
+        canned_response(voice_data)

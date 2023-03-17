@@ -6,8 +6,19 @@ import playsound
 import os
 import random
 from gtts import gTTS
+from dotenv import load_dotenv, find_dotenv
+import openai
+import contextlib
 
 r = sr.Recognizer()
+load_dotenv(find_dotenv())
+openai.api_key = os.getenv('OPEN_AI_KEY')
+
+# Set the model and prompt
+model_engine = "text-davinci-003"
+
+# Set the maximum number of tokens to generate in the response
+max_tokens = 1024
 
 
 def listen_for_audio(ask=False):
@@ -26,6 +37,11 @@ def listen_for_audio(ask=False):
 
 
 def am_speak(audio):
+    with contextlib.suppress(FileNotFoundError):
+        # Delete previous audio files
+        for file in os.listdir():
+            if file.startswith('audio-') and file.endswith('.mp3'):
+                os.remove(file)
     tts = gTTS(text=audio, lang='en')
     r = random.randint(1, 10000000)
     audio_file = 'audio-' + str(r) + '.mp3'
@@ -37,28 +53,41 @@ def am_speak(audio):
 
 def canned_response(voice_data):
     if 'what is your name' in voice_data:
-        am_speak(f'My name is {os.name}')
-    if 'what time is it' in voice_data:
+        am_speak(f'My name is {__name__}')
+    elif 'what time is it' in voice_data:
         am_speak(ctime())
-    if 'search the web' in voice_data:
+    elif 'search the web' in voice_data:
         search = listen_for_audio('What do you want to search for?')
         url = 'https://google.com/search?q=' + search
         webbrowser.get().open(url)
         am_speak(f'Here is what I found for: {search}')
-    if 'find location' in voice_data:
+    elif 'find location' in voice_data:
         location = listen_for_audio('What is the location?')
         url = 'https://google.nl/maps/place/' + location + '/&amp;'
         webbrowser.get().open(url)
         am_speak(f'Here is what I found for: {location}')
-    if 'goodbye' in voice_data:
+    elif 'goodbye' in voice_data:
         am_speak('It was good listening to you.')
         exit()
-    if 'who rocks the party' in voice_data:
+    elif 'who rocks the party' in voice_data:
         am_speak('We rock the party, rock the party.')
-    if 'what\'s the latest news' in voice_data:
+    elif 'what\'s the latest news' in voice_data:
         url = 'https://apnews.com/'
         webbrowser.get().open(url)
         am_speak('Here\'s the latest news right now.')
+    elif voice_data:
+        # Generate a response
+        completion = openai.Completion.create(
+            engine=model_engine,
+            prompt=voice_data,
+            max_tokens=max_tokens,
+            temperature=0.5,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+        # Say response
+        am_speak(completion.choices[0].text)
 
 
 if __name__ == '__main__':

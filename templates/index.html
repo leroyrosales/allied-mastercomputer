@@ -14,40 +14,26 @@
       <!--Main-->
       <div class="container pt-16 mx-auto flex flex-wrap flex-col md:flex-row items-center">
         <!--Left Col-->
-        <div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
-          <h1 class="my-4 text-3xl md:text-5xl text-white font-bold leading-tight text-center md:text-left">
-            Main
+        <div class="flex flex-col w-full xl:w-2/5 justify-center lg:items-start">
+          <h2 class="my-4 text-3xl md:text-5xl text-white font-bold leading-tight text-center md:text-left">
+            Howdy, I'm
             <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">
-              Hero Message
-            </span>
-            to sell yourself!
-          </h1>
+              Allied Mastercomputer
+            </span>,
+            a virtual assistant in a box!
+          </h2>
           <p class="leading-normal text-base md:text-2xl mb-8 text-center md:text-left">
-            Sub-hero message, not too long and not too short. Make it just right!
+            Ask AM what the weather is today, 'search the web', or for the latest news, to 'close' AM just say "goodbye!".
           </p>
 
-          <form class="bg-gray-900 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
-            <div class="mb-4">
-              <label class="block text-blue-300 py-2 font-bold mb-2" for="emailaddress">
-                Signup for our newsletter
-              </label>
-              <input
-                class="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-                id="emailaddress"
-                type="text"
-                placeholder="you@somewhere.com"
-              />
-            </div>
+            <button
+              class="bg-gradient-to-r from-purple-800 to-green-500 hover:from-pink-500 hover:to-green-500 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-125 duration-300 ease-in-out"
+              type="button"
+              id="prompt-am"
+            >
+              Tap to talk
+            </button>
 
-            <div class="flex items-center justify-between pt-4">
-              <button
-                class="bg-gradient-to-r from-purple-800 to-green-500 hover:from-pink-500 hover:to-green-500 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-                type="button"
-              >
-                Sign Up
-              </button>
-            </div>
-          </form>
         </div>
         <!--Right Col-->
         <div class="w-full xl:w-3/5 p-12 overflow-hidden">
@@ -57,6 +43,19 @@
         {% include 'partial/footer.html' %}
       </div>
     </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type=text/javascript>
+            $(function() {
+              $('#prompt-am').on('click', function(e) {
+                e.preventDefault()
+                $.getJSON('/speak_computer',
+                    function(data) {
+                  //do nothing
+                });
+                return false;
+              });
+            });
+    </script>
   </body>
 
 </html>

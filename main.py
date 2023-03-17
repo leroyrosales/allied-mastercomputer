@@ -54,28 +54,28 @@ def am_speak(audio):
 def canned_response(voice_data):
     if 'what is your name' in voice_data:
         am_speak(f'My name is {__name__}')
-    elif 'what time is it' in voice_data:
+    if 'what time is it' in voice_data:
         am_speak(ctime())
-    elif 'search the web' in voice_data:
+    if 'search the web' in voice_data:
         search = listen_for_audio('What do you want to search for?')
         url = 'https://google.com/search?q=' + search
         webbrowser.get().open(url)
         am_speak(f'Here is what I found for: {search}')
-    elif 'find location' in voice_data:
+    if 'find location' in voice_data:
         location = listen_for_audio('What is the location?')
         url = 'https://google.nl/maps/place/' + location + '/&amp;'
         webbrowser.get().open(url)
         am_speak(f'Here is what I found for: {location}')
-    elif 'goodbye' in voice_data:
+    if 'goodbye' in voice_data:
         am_speak('It was good listening to you.')
         exit()
-    elif 'who rocks the party' in voice_data:
+    if 'who rocks the party' in voice_data:
         am_speak('We rock the party, rock the party.')
-    elif 'what\'s the latest news' in voice_data:
+    if 'what\'s the latest news' in voice_data:
         url = 'https://apnews.com/'
         webbrowser.get().open(url)
         am_speak('Here\'s the latest news right now.')
-    elif voice_data:
+    else:
         # Generate a response
         completion = openai.Completion.create(
             engine=model_engine,

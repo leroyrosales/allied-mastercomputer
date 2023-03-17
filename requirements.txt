@@ -1,8 +1,8 @@
-speechrecognition="*"
-pyaudio="*"
-gtts="*"
-playsound="*"
-pyobjc="*"
-python-dotenv="*"
-openai="*"
-flask="*"
+speechrecognition
+pyaudio
+gtts
+playsound
+pyobjc
+python-dotenv
+openai
+flask
